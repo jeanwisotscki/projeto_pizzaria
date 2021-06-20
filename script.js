@@ -32,8 +32,10 @@ pizzaJson.map((item, index)=>{
             }
             size.querySelector('span').innerHTML = pizzaJson[key].sizes[sizeIndex]    
         })
-
         q('.pizzaInfo--qt').innerHTML = modalQtd
+
+        // ações do modal
+
 
         q('.pizzaWindowArea').style.opacity = 0
         q('.pizzaWindowArea').style.display = 'flex'
@@ -43,4 +45,16 @@ pizzaJson.map((item, index)=>{
     })
 
     q('.pizza-area').append(pizzaItem)
+})
+
+// eventos do modal
+function closeModal(){
+    q('.pizzaWindowArea').style.opacity = 0
+    setTimeout(()=>{
+        q('.pizzaWindowArea').style.display = 'none'
+    }, 500)
+}
+
+qS('.pizzaInfo--cancelButton, .pizzaInfo--cancelMobileButton').forEach((item)=>{
+    item.addEventListener('click', closeModal)
 })
