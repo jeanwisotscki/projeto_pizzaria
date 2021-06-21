@@ -34,9 +34,7 @@ pizzaJson.map((item, index)=>{
         })
         q('.pizzaInfo--qt').innerHTML = modalQtd
 
-        // ações do modal
-
-
+        // efeito de suavização de entrada e saida do modal
         q('.pizzaWindowArea').style.opacity = 0
         q('.pizzaWindowArea').style.display = 'flex'
         setTimeout(()=>{
@@ -55,6 +53,27 @@ function closeModal(){
     }, 500)
 }
 
+// botão de fechar modal
 qS('.pizzaInfo--cancelButton, .pizzaInfo--cancelMobileButton').forEach((item)=>{
     item.addEventListener('click', closeModal)
+})
+
+// botões de adicionar e remover itens
+q('.pizzaInfo--qtmenos').addEventListener('click', ()=>{
+    if (modalQtd > 1){
+        modalQtd--
+        q('.pizzaInfo--qt').innerHTML = modalQtd
+    }
+})
+q('.pizzaInfo--qtmais').addEventListener('click', ()=>{
+    modalQtd++
+    q('.pizzaInfo--qt').innerHTML = modalQtd
+})
+
+// seleção de tamanhos das pizzas
+qS('.pizzaInfo--size').forEach((size, sizeIndex)=>{
+    size.addEventListener('click', (elemento)=>{
+        q('.pizzaInfo--size.selected').classList.remove('selected')
+        size.classList.add('selected')
+    })
 })
