@@ -1,4 +1,6 @@
+let cart = []
 let modalQtd = 1
+let modalKey = 0
 
 const q = (elemento)=> document.querySelector(elemento) // função anônima
 const qS = (elemento)=> document.querySelectorAll(elemento) // função anônima
@@ -18,6 +20,7 @@ pizzaJson.map((item, index)=>{
         evento.preventDefault()
         let key = evento.target.closest('.pizza-item').getAttribute('data-key')
         modalQtd = 1
+        modalKey = key
 
         // preenchimento do modal
         q('.pizzaBig img').src = pizzaJson[key].img
@@ -76,4 +79,18 @@ qS('.pizzaInfo--size').forEach((size, sizeIndex)=>{
         q('.pizzaInfo--size.selected').classList.remove('selected')
         size.classList.add('selected')
     })
+})
+
+// botão de adicionar ao carrinho
+q('.pizzaInfo--addButton').addEventListener('click', ()=>{
+    // Qual o tamanho?
+    let size = parseInt(q('.pizzaInfo--size.selected').getAttribute('data-key'))
+
+    cart.push({
+        id: pizzaJson[modalKey].id,
+        size: size,
+        qtd: modalQtd
+    })
+
+    closeModal()
 })
