@@ -106,9 +106,14 @@ q('.pizzaInfo--addButton').addEventListener('click', () => {
     closeModal()
 })
 
+// carrinho
 function updateCart(){
     if (cart.length > 0){
         q('aside').classList.add('show')
+
+        for(let i in cart){
+            let pizzaItem = pizzaJson.find((item)=>item.id == cart[i].id)
+        }
     } else {
         q('aside').classList.remove('show')
     }
