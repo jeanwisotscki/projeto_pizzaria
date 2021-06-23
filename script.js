@@ -102,5 +102,14 @@ q('.pizzaInfo--addButton').addEventListener('click', () => {
         })
     }
 
+    updateCart()
     closeModal()
 })
+
+function updateCart(){
+    if (cart.length > 0){
+        q('aside').classList.add('show')
+    } else {
+        q('aside').classList.remove('show')
+    }
+}
