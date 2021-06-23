@@ -2,10 +2,10 @@ let cart = []
 let modalQtd = 1
 let modalKey = 0
 
-const q = (elemento)=> document.querySelector(elemento) // função anônima
-const qS = (elemento)=> document.querySelectorAll(elemento) // função anônima
+const q = (elemento) => document.querySelector(elemento) // função anônima
+const qS = (elemento) => document.querySelectorAll(elemento) // função anônima
 
-pizzaJson.map((item, index)=>{
+pizzaJson.map((item, index) => {
     let pizzaItem = q('.models .pizza-item').cloneNode(true)
 
     pizzaItem.setAttribute('data-key', index)
@@ -16,7 +16,7 @@ pizzaJson.map((item, index)=>{
     pizzaItem.querySelector('.pizza-item--desc').innerHTML = item.description
 
     // tela do modal
-    pizzaItem.querySelector('a').addEventListener('click', (evento)=>{
+    pizzaItem.querySelector('a').addEventListener('click', (evento) => {
         evento.preventDefault()
         let key = evento.target.closest('.pizza-item').getAttribute('data-key')
         modalQtd = 1
@@ -29,18 +29,18 @@ pizzaJson.map((item, index)=>{
         q('.pizzaInfo--actualPrice').innerHTML = `R$ ${pizzaJson[key].price.toFixed(2)}`
 
         q('.pizzaInfo--size.selected').classList.remove('selected')
-        qS('.pizzaInfo--size').forEach((size, sizeIndex)=>{
-            if (sizeIndex == 2){
+        qS('.pizzaInfo--size').forEach((size, sizeIndex) => {
+            if (sizeIndex == 2) {
                 size.classList.add('selected')
             }
-            size.querySelector('span').innerHTML = pizzaJson[key].sizes[sizeIndex]    
+            size.querySelector('span').innerHTML = pizzaJson[key].sizes[sizeIndex]
         })
         q('.pizzaInfo--qt').innerHTML = modalQtd
 
         // efeito de suavização de entrada e saida do modal
         q('.pizzaWindowArea').style.opacity = 0
         q('.pizzaWindowArea').style.display = 'flex'
-        setTimeout(()=>{
+        setTimeout(() => {
             q('.pizzaWindowArea').style.opacity = 1
         }, 200)
     })
@@ -49,48 +49,58 @@ pizzaJson.map((item, index)=>{
 })
 
 // eventos do modal
-function closeModal(){
+function closeModal() {
     q('.pizzaWindowArea').style.opacity = 0
-    setTimeout(()=>{
+    setTimeout(() => {
         q('.pizzaWindowArea').style.display = 'none'
     }, 500)
 }
 
 // botão de fechar modal
-qS('.pizzaInfo--cancelButton, .pizzaInfo--cancelMobileButton').forEach((item)=>{
+qS('.pizzaInfo--cancelButton, .pizzaInfo--cancelMobileButton').forEach((item) => {
     item.addEventListener('click', closeModal)
 })
 
 // botões de adicionar e remover itens
-q('.pizzaInfo--qtmenos').addEventListener('click', ()=>{
-    if (modalQtd > 1){
+q('.pizzaInfo--qtmenos').addEventListener('click', () => {
+    if (modalQtd > 1) {
         modalQtd--
         q('.pizzaInfo--qt').innerHTML = modalQtd
     }
 })
-q('.pizzaInfo--qtmais').addEventListener('click', ()=>{
+q('.pizzaInfo--qtmais').addEventListener('click', () => {
     modalQtd++
     q('.pizzaInfo--qt').innerHTML = modalQtd
 })
 
 // seleção de tamanhos das pizzas
-qS('.pizzaInfo--size').forEach((size, sizeIndex)=>{
-    size.addEventListener('click', (elemento)=>{
+qS('.pizzaInfo--size').forEach((size, sizeIndex) => {
+    size.addEventListener('click', (elemento) => {
         q('.pizzaInfo--size.selected').classList.remove('selected')
         size.classList.add('selected')
     })
 })
 
 // botão de adicionar ao carrinho
-q('.pizzaInfo--addButton').addEventListener('click', ()=>{
-    // Qual o tamanho?
+q('.pizzaInfo--addButton').addEventListener('click', () => {
     let size = parseInt(q('.pizzaInfo--size.selected').getAttribute('data-key'))
 
-    cart.push({
-        id: pizzaJson[modalKey].id,
-        size: size,
-        qtd: modalQtd
+    let identifier = pizzaJson[modalKey].id + '@' + size
+
+    let key = cart.findIndex((item) => {
+        return item.identifier == identifier
     })
+
+    if (key > -1) {
+        cart[key].qtd += modalQtd
+    } else {
+        cart.push({
+            identifier,
+            id: pizzaJson[modalKey].id,
+            size: size,
+            qtd: modalQtd
+        })
+    }
 
     closeModal()
 })
