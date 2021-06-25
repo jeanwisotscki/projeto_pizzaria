@@ -106,6 +106,18 @@ q('.pizzaInfo--addButton').addEventListener('click', () => {
     closeModal()
 })
 
+// abrir carrinho mobile
+q('.menu-openner').addEventListener('click', ()=>{
+    if (cart.length > 0){
+        q('aside').style.left = '0'
+    }
+})
+
+// fechar carrinho mobile
+q('.menu-closer').addEventListener('click', ()=>{
+    q('aside').style.left = '100vw'
+})
+
 // carrinho
 function updateCart(){
     q('.menu-openner span').innerHTML = cart.length
@@ -166,5 +178,6 @@ function updateCart(){
 
     } else {
         q('aside').classList.remove('show')
+        q('aside').style.left = '100vw'
     }
 }
