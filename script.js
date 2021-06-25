@@ -108,6 +108,8 @@ q('.pizzaInfo--addButton').addEventListener('click', () => {
 
 // carrinho
 function updateCart(){
+    q('.menu-openner span').innerHTML = cart.length
+    
     if (cart.length > 0){
         q('aside').classList.add('show')
         q('.cart').innerHTML = ''
